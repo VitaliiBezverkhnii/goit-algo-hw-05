@@ -16,7 +16,8 @@ def generator_numbers(text: str):
     :param text: Input string containing decimal numbers.
     :return: Generator of Decimal objects.
     """
-    for number in re.findall(r'\d+\.\d{2}', text):
+    pattern = r"(?<=\s)\d+(?:\.\d+)?(?=\s|$)"
+    for number in re.findall(pattern, text.strip()):
         yield Decimal(number)
     
 def sum_profit(text: str, func: Callable):
@@ -29,7 +30,6 @@ def sum_profit(text: str, func: Callable):
     """
     return sum(func(text))
 
-text = "Загальний дохід працівника складається з декількох частин: \
-    1000.01 як основний дохід, доповнений додатковими надходженнями 27.45 і 324.00 доларів."
+text = " 1000 Загальний дохід працівника складається з декількох частин: 1000.01 як основний дохід, доповнений додатковими надходженнями 27.45 і 324.00 доларів."
 total_income = sum_profit(text, generator_numbers)
 print(f"Загальний дохід: {total_income}")
